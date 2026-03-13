@@ -1,0 +1,23 @@
+# Données massives (Ne pas envoyer sur GitHub)
+Data/
+isd-history.csv
+isd-inventory.csv
+*.parquet
+*.csv
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+venv/
+.venv/
+
+# Jupyter
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# Images/Résultats
+*.png
+*.jpg
+outputs/
