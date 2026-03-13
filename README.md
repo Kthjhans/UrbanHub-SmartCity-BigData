@@ -1,6 +1,6 @@
 # UrbanHub - Jumeau Numérique Urbain (Smart City Big Data)
 
-## 📌 Contexte du Projet
+##  Contexte du Projet
 Une **Smart City** génère en permanence des données massives provenant de multiples sources (IoT, capteurs environnementaux, flux de trafic, mobilité douce). Ces données doivent être collectées, stockées et analysées afin de produire des indicateurs utiles aux décideurs publics.
 
 **UrbanHub** est une plateforme capable d'ingérer et d'analyser ces flux typiques d'un système Big Data réel :
@@ -8,20 +8,20 @@ Une **Smart City** génère en permanence des données massives provenant de mul
 2. **Flux Streaming** (Données temps réel)
 3. **Flux IoT** (Données capteurs)
 
-## 🎯 Résultats Visés
+##  Résultats Visés
 - **Observabilité** : Visualiser l'état de la ville en temps réel (ex: disponibilité des vélos).
 - **Analyse Historique** : Identifier des tendances climatiques et des anomalies météorologiques depuis 1990.
 - **Aide à la décision** : Localiser les zones de tension (stations de vélos saturées ou vides) pour optimiser les services urbains.
 
 ---
 
-## 🛠️ Architecture Technique
+##  Architecture Technique
 Les données suivent un pipeline classique de Data Engineering :
 `Ingestion → Stockage (Data Lake) → Nettoyage → Analyse → Visualisation`
 
 ---
 
-## 🚀 Fonctionnement et Lancement
+##  Fonctionnement et Lancement
 
 ### Partie 1 : Flux Batch (Analyse Météorologique)
 Cette partie traite les données mondiales horaires de la NOAA pour les stations françaises depuis 1990.
@@ -58,13 +58,13 @@ Analyse en temps réel de la disponibilité des vélos en libre-service.
 
 ---
 
-## 📦 Installation
+##  Installation
 ```bash
 # Installation des dépendances nécessaires
 pip install pandas numpy matplotlib seaborn requests folium pyarrow tqdm
 ```
 
-## 📂 Structure du Dépôt
+##  Structure du Dépôt
 - `ingestion.py` : Script de collecte Batch.
 - `cleaning.py` : Pipeline de nettoyage des données brutes.
 - `analysis.py` : Calcul des indicateurs clés.
