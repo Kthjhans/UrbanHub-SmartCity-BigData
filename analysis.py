@@ -84,10 +84,15 @@ def perform_analysis(df, mapping):
 
     # Q1: Visualisation des Anomalies
     plt.figure(figsize=(12, 6))
-    plt.scatter(df['timestamp'], df['temperature'], alpha=0.1, color='gray', label='Données normales')
+    # On échantillonne pour le tracé si trop de points (évite de figer le PC)
+    df_sample = df.sample(n=min(len(df), 50000))
+    plt.scatter(df_sample['timestamp'], df_sample['temperature'], alpha=0.1, color='gray', label='Données normales (éch.)')
+    
     if not anomalies.empty:
-        plt.scatter(anomalies['timestamp'], anomalies['temperature'], color='red', s=10, label='Anomalies (>3 std)')
-    plt.title("Détection des Anomalies de Température")
+        anom_sample = anomalies.sample(n=min(len(anomalies), 10000))
+        plt.scatter(anom_sample['timestamp'], anom_sample['temperature'], color='red', s=10, label='Anomalies (éch.)')
+    
+    plt.title("Détection des Anomalies de Température (Aperçu)")
     plt.legend()
     plt.savefig("anomalies.png")
     plt.close()
