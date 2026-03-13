@@ -45,7 +45,9 @@ def perform_analysis(df, mapping):
     # Q1: Périodes météorologiques anormales
     # Définition : Observations où la température s'écarte de plus de 3 écart-types de la moyenne mensuelle
     monthly_stats = df.groupby('month')['temperature'].agg(['mean', 'std']).reset_index()
-    df_anom = df.merge(monthly_stats, on='month', suffixes=('', '_month'))
+    monthly_stats = monthly_stats.rename(columns={'mean': 'mean_month', 'std': 'std_month'})
+    
+    df_anom = df.merge(monthly_stats, on='month')
     df_anom['z_score'] = (df_anom['temperature'] - df_anom['mean_month']) / df_anom['std_month']
     anomalies = df_anom[np.abs(df_anom['z_score']) > 3]
     
