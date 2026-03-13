@@ -82,25 +82,43 @@ def perform_analysis(df, mapping):
         max_precip = df.loc[df['precipitation'].idxmax()]
         print(f"   - Pluie record : {max_precip['precipitation']} mm à {max_precip['city']} le {max_precip['timestamp']}")
 
-    # Visualisation (Optimisée pour gros volumes)
-    print("\nGénération du graphique (agrégation des données)...")
+    # Q1: Visualisation des Anomalies
     plt.figure(figsize=(12, 6))
-    
-    # On agrège par mois pour le tracé (beaucoup plus rapide)
+    plt.scatter(df['timestamp'], df['temperature'], alpha=0.1, color='gray', label='Données normales')
+    if not anomalies.empty:
+        plt.scatter(anomalies['timestamp'], anomalies['temperature'], color='red', s=10, label='Anomalies (>3 std)')
+    plt.title("Détection des Anomalies de Température")
+    plt.legend()
+    plt.savefig("anomalies.png")
+    plt.close()
+
+    # Q2: Matrice de Corrélation
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(corr, annot=True, cmap='coolwarm', center=0)
+    plt.title("Corrélations entre variables météo et visibilité")
+    plt.savefig("correlations.png")
+    plt.close()
+
+    # Q3: Évolution saisonnière (Déjà optimisée)
+    plt.figure(figsize=(12, 6))
     df_plot = df.groupby('month')['temperature'].agg(['mean', 'min', 'max']).reset_index()
-    
     plt.plot(df_plot['month'], df_plot['mean'], label='Moyenne', color='blue', marker='o')
     plt.fill_between(df_plot['month'], df_plot['min'], df_plot['max'], alpha=0.2, label='Amplitude (Min-Max)', color='blue')
-    
     plt.xticks(range(1, 13), ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sept', 'Oct', 'Nov', 'Déc'])
     plt.grid(True, linestyle='--', alpha=0.7)
-    plt.legend()
-    plt.title("Évolution saisonnière de la température en France (Données Historiques)")
-    plt.xlabel("Mois")
-    plt.ylabel("Température (°C)")
-    
+    plt.title("Évolution saisonnière de la température")
     plt.savefig("seasonal_temp.png")
-    print("\nGraphique 'seasonal_temp.png' généré avec succès.")
+    plt.close()
+
+    # Q4: Visualisation des Extrêmes (Top 10 Vents)
+    plt.figure(figsize=(12, 6))
+    top_10_wind = df.sort_values('wind_speed', ascending=False).head(10)
+    sns.barplot(data=top_10_wind, x='wind_speed', y='city', palette='viridis')
+    plt.title("Top 10 des Records de Vents par Station")
+    plt.savefig("extremes.png")
+    plt.close()
+
+    print("\nGraphiques générés : anomalies.png, correlations.png, seasonal_temp.png, extremes.png")
 
 def main():
     df = load_data()
